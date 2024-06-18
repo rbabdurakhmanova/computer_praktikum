@@ -1,0 +1,149 @@
+### Метод прямоугольников
+
+#### На C++:
+C++
+
+#include <iostream>
+
+double f(double x) {
+    return x * x; // Пример функции, для которой вычисляется интеграл
+}
+
+double rectangleMethod(double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = 0.0;
+
+    for (int i = 0; i < n; ++i) {
+        sum += f(a + i * h);
+    }
+
+    return sum * h;
+}
+
+int main() {
+    double a = 0.0;
+    double b = 1.0;
+    int n = 100;
+
+    std::cout << "Интеграл методом прямоугольников: " << rectangleMethod(a, b, n) << std::endl;
+
+    return 0;
+}
+
+#### На Python:
+Python
+
+def f(x):
+    return x * x  # Пример функции, для которой вычисляется интеграл
+
+def rectangle_method(a, b, n):
+    h = (b - a) / n
+    sum = 0.0
+
+    for i in range(n):
+        sum += f(a + i * h)
+
+    return sum * h
+
+a = 0.0
+b = 1.0
+n = 100
+
+print("Интеграл методом прямоугольников:", rectangle_method(a, b, n))
+
+### Метод трапеций
+
+#### На C++ и Python:
+C++
+
+#include <iostream>
+
+double trapezoidalMethod(double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = (f(a) + f(b)) / 2.0;
+
+    for (int i = 1; i < n; ++i) {
+        sum += f(a + i * h);
+    }
+
+    return sum * h;
+}
+
+int main() {
+    double a = 0.0;
+    double b = 1.0;
+    int n = 100;
+
+    std::cout << "Интеграл методом трапеций: " << trapezoidalMethod(a, b, n) << std::endl;
+
+    return 0;
+}
+
+Python
+
+def trapezoidal_method(a, b, n):
+    h = (b - a) / n
+    sum = (f(a) + f(b)) / 2.0
+
+    for i in range(1, n):
+        sum += f(a + i * h)
+
+    return sum * h
+
+a = 0.0
+b = 1.0
+n = 100
+
+print("Интеграл методом трапеций:", trapezoidal_method(a, b, n))
+
+### Метод Симпсона (парабол)
+
+#### На C++ и Python:
+C++
+
+#include <iostream>
+
+double simpsonsMethod(double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = f(a) + f(b);
+
+    for (int i = 1; i < n; i += 2) {
+        sum += 4 * f(a + i * h);
+    }
+
+    for (int i = 2; i < n - 1; i += 2) {
+        sum += 2 * f(a + i * h);
+    }
+
+    return sum * h / 3;
+}
+
+int main() {
+    double a = 0.0;
+    double b = 1.0;
+    int n = 100;
+
+    std::cout << "Интеграл методом Симпсона: " << simpsonsMethod(a, b, n) << std::endl;
+
+    return 0;
+}
+
+Python
+
+def simpsons_method(a, b, n):
+    h = (b - a) / n
+    sum = f(a) + f(b)
+
+    for i in range(1, n, 2):
+        sum += 4 * f(a + i * h)
+
+    for i in range(2, n-1, 2):
+        sum += 2 * f(a + i * h)
+
+    return sum * h / 3
+
+a = 0.0
+b = 1.0
+n = 100
+
+print("Интеграл методом Симпсона:", simpsons_method(a, b, n))
