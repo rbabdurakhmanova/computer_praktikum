@@ -1,0 +1,125 @@
+> Rukhshona:
+6 
+
+### Метод наименьших квадратов
+
+#### На C++:
+#include <iostream>
+#include <vector>
+
+void leastSquaresApproximation(const std::vector<double>& x, const std::vector<double>& y) {
+    int n = x.size();
+    double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+
+    for (int i = 0; i < n; ++i) {
+        sumX += x[i];
+        sumY += y[i];
+        sumXY += x[i] * y[i];
+        sumX2 += x[i] * x[i];
+    }
+
+    double a = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    double b = (sumY - a * sumX) / n;
+
+    std::cout << "Аппроксимирующая прямая: y = " << a << "x + " << b << std::endl;
+}
+
+int main() {
+    std::vector<double> x = {1, 2, 3, 4, 5};
+    std::vector<double> y = {2.5, 3.5, 4.5, 5.5, 6.5};
+
+    leastSquaresApproximation(x, y);
+
+    return 0;
+}
+
+
+#### На Python:
+import numpy as np
+
+def least_squares_approximation(x, y):
+    n = len(x)
+    sumX = np.sum(x)
+    sumY = np.sum(y)
+    sumXY = np.sum(x * y)
+    sumX2 = np.sum(x * x)
+
+    a = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX)
+    b = (sumY - a * sumX) / n
+
+    print("Аппроксимирующая прямая: y =", a, "x +", b)
+
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([2.5, 3.5, 4.5, 5.5, 6.5])
+
+least_squares_approximation(x, y)
+
+> Rukhshona:
+7
+
+### Метод Эйлера для численного решения ОДУ
+
+#### На C++:
+#include <iostream>
+#include <vector>
+
+double f(double t, double y) {
+    return t - y; // Пример: y' = t - y
+}
+
+void eulerMethod(double t0, double y0, double h, double tn) {
+    std::vector<double> t;
+    std::vector<double> y;
+
+    t.push_back(t0);
+    y.push_back(y0);
+
+    while (t.back() < tn) {
+        double tn1 = t.back() + h;
+        double yn1 = y.back() + h * f(t.back(), y.back());
+        t.push_back(tn1);
+        y.push_back(yn1);
+    }
+
+    // Вывод результатов
+    for (size_t i = 0; i < t.size(); ++i) {
+        std::cout << "t = " << t[i] << ", y = " << y[i] << std::endl;
+    }
+}
+
+int main() {
+    double t0 = 0.0;
+    double y0 = 1.0;
+    double h = 0.1;
+    double tn = 2.0;
+
+    eulerMethod(t0, y0, h, tn);
+
+    return 0;
+}
+
+
+#### На Python:
+def f(t, y):
+    return t - y  # Пример: y' = t - y
+
+def euler_method(t0, y0, h, tn):
+    t = [t0]
+    y = [y0]
+
+    while t[-1] < tn:
+        tn1 = t[-1] + h
+        yn1 = y[-1] + h * f(t[-1], y[-1])
+        t.append(tn1)
+        y.append(yn1)
+
+    # Вывод результатов
+    for i in range(len(t)):
+        print("t =", t[i], ", y =", y[i])
+
+t0 = 0.0
+y0 = 1.0
+h = 0.1
+tn = 2.0
+
+euler_method(t0, y0, h, tn)
