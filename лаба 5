@@ -1,0 +1,55 @@
+### Метод наименьших квадратов
+
+#### На C++:
+C++
+
+#include <iostream>
+#include <vector>
+
+void leastSquaresApproximation(const std::vector<double>& x, const std::vector<double>& y) {
+    int n = x.size();
+    double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+
+    for (int i = 0; i < n; ++i) {
+        sumX += x[i];
+        sumY += y[i];
+        sumXY += x[i] * y[i];
+        sumX2 += x[i] * x[i];
+    }
+
+    double a = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    double b = (sumY - a * sumX) / n;
+
+    std::cout << "Аппроксимирующая прямая: y = " << a << "x + " << b << std::endl;
+}
+
+int main() {
+    std::vector<double> x = {1, 2, 3, 4, 5};
+    std::vector<double> y = {2.5, 3.5, 4.5, 5.5, 6.5};
+
+    leastSquaresApproximation(x, y);
+
+    return 0;
+}
+
+#### На Python:
+Python
+
+import numpy as np
+
+def least_squares_approximation(x, y):
+    n = len(x)
+    sumX = np.sum(x)
+    sumY = np.sum(y)
+    sumXY = np.sum(x * y)
+    sumX2 = np.sum(x * x)
+
+    a = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX)
+    b = (sumY - a * sumX) / n
+
+    print("Аппроксимирующая прямая: y =", a, "x +", b)
+
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([2.5, 3.5, 4.5, 5.5, 6.5])
+
+least_squares_approximation(x, y)
