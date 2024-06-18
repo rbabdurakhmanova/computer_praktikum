@@ -1,0 +1,110 @@
+> Rukhshona:
+#include <iostream>
+
+using namespace std;
+
+double f(double x1, double x2, double x3) {
+  return x1 + 5 * x2 + x3 + 4 * sqrt(1 + x1 * x1 + x2 * x2);
+}
+
+void pokord_spusk(double *x, double *dx, double epsilon) {
+  while (true) {
+    double f_prev = f(x[0], x[1], x[2]);
+
+    for (int i = 0; i < 3; i++) {
+      double x_new = x[i] + dx[i];
+      double f_new = f(x_new, x[1], x[2]);
+
+      if (f_new < f_prev) {
+        x[i] = x_new;
+      }
+    }
+
+    double f_curr = f(x[0], x[1], x[2]);
+
+    if (abs(f_curr - f_prev) < epsilon) {
+      break;
+    }
+  }
+}
+
+int main() {
+  double x[3] = {0, 0, 0};
+  double dx[3] = {0.1, 0.1, 0.1};
+  double epsilon = 1e-6;
+
+  pokord_spusk(x, dx, epsilon);
+
+  cout << "Минимум функции f(x) при x = [" << x[0] << ", " << x[1] << ", " << x[2] << "] равен " << f(x[0], x[1], x[2]) << endl;
+
+  return 0;
+}
+
+> Rukhshona:
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+double f(double x1, double x2, double x3) {
+  return x1 + 5 * x2 + x3 + 4 * sqrt(1 + x1 * x1 + x2 * x2);
+}
+
+vector<double> grad_f(double x1, double x2, double x3) {
+  return {1 + 4 * x1 / (1 + x1 * x1 + x2 * x2), 5 + 4 * x2 / (1 + x1 * x1 + x2 * x2), 1 + 4 * x3 / (1 + x1 * x1 + x2 * x2)};
+}
+
+void naisk_spusk(double *x, double alpha, double epsilon) {
+  while (true) {
+    vector<double> grad = grad_f(x[0], x[1], x[2]);
+
+    double norm_grad = 0;
+    for (double g : grad) {
+      norm_grad += g * g;
+    }
+    norm_grad = sqrt(norm_grad);
+
+    for (int i = 0; i < 3; i++) {
+      x
+
+> Rukhshona:
+Система уравнений будет иметь вид:
+f(x0) = y0
+f(x1) = y1
+...
+f(x4) = y4
+f'(x0) = 0
+f''(x4) = 0
+
+a1i(x - xi)^3 + b1i(x - xi)^2 + c1i(x - xi) + d1i = yi
+a2i(x - xi)^3 + b2i(x - xi)^2 + c2i(x - xi) + d2i = yi+1
+...
+a4i(x - xi)^3 + b4i(x - xi)^2 + c4i(x - xi) + d4i = y4
+
+> Rukhshona:
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+double f(double x) {
+  // функция, для которой строится сплайн
+  return x * x * x + 2 * x;
+}
+
+vector<double> spline(double x, vector<double> &x_nodes, vector<double> &y_nodes) {
+  // функция, вычисляющая значение сплайна в точке x
+  int n = x_nodes.size();
+
+  for (int i = 0; i < n; i++) {
+    if (x >= x_nodes[i] && x <= x_nodes[i + 1]) {
+      // вычисляем коэффициенты кубического полинома на интервале [xi, xi+1]
+      double a = (y_nodes[i + 1] - y_nodes[i]) / (x_nodes[i + 1] - x_nodes[i]) - (x_nodes[i + 1] - x_nodes[i]) * (f'(x_nodes[i + 1]) + f'(x_nodes[i])) / 6;
+      double b = f'(x_nodes[i]) + (x_nodes[i + 1] - x_nodes[i]) * (f'(x_nodes[i + 1]) - f'(x_nodes[i])) / 6;
+      double c = y_nodes[i] - a * x_nodes[i] * x_nodes[i] - b * x_nodes[i];
+      double d = a * x_nodes[i] * x_nodes[i] * x_nodes[i] + b * x_nodes[i] * x_nodes[i];
+
+      // вычисляем значение сплайна в точке x
+      return {a * (x - x_nodes[i]) * (x - x_nodes[i]) * (x - x_nodes[i]) + b * (x - x_nodes[i]) * (x - x_nodes[i]) + c * (x - x_nodes[i]) + d};
+    }
+  }
